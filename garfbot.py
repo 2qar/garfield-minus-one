@@ -11,5 +11,7 @@ if garf_filename.endswith('.png'):
     auth.set_access_token(tokens['access_token'], tokens['access_token_secret'])
 
     api = API(auth)
-    api.update_with_media(garf_filename)
+    api.update_with_media(garf_filename, status="garfield without the third panel")
     run(['rm', garf_filename])
+else:
+    print(garf_filename)
