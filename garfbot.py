@@ -1,9 +1,16 @@
+import sys
 from subprocess import run, PIPE
+from datetime import date
 from tweepy import OAuthHandler, API
 from json import load
 
-garf_filename = run('./get_comic.sh', stdout=PIPE).stdout.decode('utf-8').replace('\n', '')
+try:
+    today = sys.argv[1]
+except IndexError:
+    today = date.today().strftime("%Y-%m-%d")
+garf_filename = run(['./get_comic.sh', today], stdout=PIPE).stdout.decode('utf-8').replace('\n', '')
 if garf_filename.endswith('.png'):
+    print("Posting comic for today, ", today)
     with open('tokens.json') as file:
         tokens = load(file)
 
