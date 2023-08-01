@@ -1,6 +1,8 @@
 #!/bin/bash
 # Remove the third panel from today's Garfield comic and put it on Twitter
 
+set -eu
+
 TMP_GARF="/tmp/garf.gif"
 NORMAL_HEIGHT=258
 
