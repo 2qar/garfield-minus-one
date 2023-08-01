@@ -24,6 +24,7 @@ total_bytes=$(wc -c $TMP_GARF | cut -d' ' -f1)
 media_id=$(twurl -H upload.twitter.com "/1.1/media/upload.json" -d "command=INIT&media_type=image/gif&total_bytes=$total_bytes" | jq -r .media_id_string)
 twurl -H upload.twitter.com "/1.1/media/upload.json" -d "command=APPEND&media_id=$media_id&segment_index=0" --file $TMP_GARF --file-field "media"
 twurl -H upload.twitter.com "/1.1/media/upload.json" -d "command=FINALIZE&media_id=$media_id"
-twurl "/1.1/statuses/update.json" -d "status=garfield without the third panel&media_ids=$media_id"
-
+twurl "/2/tweets" \
+	-d "{ \"text\": \"garfield without the third panel\", \"media\": { \"media_ids\": [\"$media_id\"] } }" \
+	--header "Content-Type: application/json"
 rm $TMP_GARF
