@@ -5,7 +5,8 @@ set -eu
 
 NORMAL_HEIGHT=258
 
-comic_url="$(curl -s "https://www.gocomics.com/garfield/$(date +%Y/%m/%d)" | egrep -o -m1 "https://assets\.amuniversal\.com/[0-9|a-z]{32}")"
+comic_page="https://www.gocomics.com/garfield/$(date +%Y/%m/%d)"
+comic_url="$(curl -s $comic_page | egrep -o -m1 "https://assets\.amuniversal\.com/[0-9|a-z]{32}")"
 if [ -z "$comic_url" ]; then
 	echo "no comic for today, i guess"
 	exit 1
@@ -17,7 +18,7 @@ size=$(identify -ping -format '%w %h' $TMP_GARF)
 width=$(echo $size | cut -d' ' -f1)
 height=$(echo $size | cut -d' ' -f2)
 if (( height > NORMAL_HEIGHT)); then
-    echo "BAD SIZE"
+    echo "BAD SIZE (verify: $comic_page)"
     exit 1
 fi
 COMIC_PATH="/tmp/garf.png"
